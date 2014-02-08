@@ -1,9 +1,6 @@
 'use strict';
 
-var express = require('express'),
-    path = require('path'),
-    fs = require('fs'),
-    mongoose = require('mongoose');
+var express = require('express');
 
 /**
  * Main application file
@@ -15,28 +12,18 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 // Application Config
 var config = require('./lib/config/config');
 
-// Connect to database
-var db = mongoose.connect(config.mongo.uri, config.mongo.options);
-
-// Bootstrap models
-var modelsPath = path.join(__dirname, 'lib/models');
-fs.readdirSync(modelsPath).forEach(function (file) {
-  require(modelsPath + '/' + file);
-});
-
-// Populate empty DB with sample data
-require('./lib/config/dummydata');
-  
-// Passport Configuration
-require('./lib/config/passport')();
-
 var app = express();
+
+var server = require('http').createServer(app);
+
+// Socket.io
+var io = require('socket.io').listen(server);
 
 // Express settings
 require('./lib/config/express')(app);
 
 // Routing
-require('./lib/routes')(app);
+require('./lib/routes')(app, io);
 
 // Start server
 app.listen(config.port, function () {

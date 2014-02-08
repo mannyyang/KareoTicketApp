@@ -1,4 +1,4 @@
-// Generated on 2014-01-31 using generator-angular-fullstack 1.2.5
+// Generated on 2014-02-05 using generator-angular-fullstack 1.2.5
 'use strict';
 
 // # Globbing
@@ -158,7 +158,8 @@ module.exports = function (grunt) {
     'bower-install': {
       app: {
         html: '<%= yeoman.app %>/views/index.html',
-        ignorePath: '<%= yeoman.app %>/'
+        ignorePath: '<%= yeoman.app %>/',
+        exclude: ['sass-bootstrap']
       }
     },
 
