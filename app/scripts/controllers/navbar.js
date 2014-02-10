@@ -5,6 +5,10 @@ angular.module('kareoticketApp')
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
+    },
+    {
+			'title': 'Podio',
+			'link': '/podio'
     }];
     
     $scope.isActive = function(route) {

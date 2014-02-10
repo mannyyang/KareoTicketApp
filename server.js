@@ -23,10 +23,10 @@ var io = require('socket.io').listen(server);
 require('./lib/config/express')(app);
 
 // Routing
-require('./lib/routes')(app, io);
+require('./lib/routes')(app, io, config);
 
 // Start server
-app.listen(config.port, function () {
+server.listen(config.port, function () {
   console.log('Express server listening on port %d in %s mode', config.port, app.get('env'));
 });
 
