@@ -1,6 +1,9 @@
 'use strict';
 
-var express = require('express');
+var express = require('express'),
+    path = require('path'),
+    fs = require('fs'),
+	mongoose = require('mongoose');
 
 /**
  * Main application file
@@ -11,6 +14,14 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Application Config
 var config = require('./lib/config/config');
+
+var db = mongoose.connect(config.mongo.uri, config.mongo.options);
+
+// Bootstrap models
+var modelsPath = path.join(__dirname, 'lib/models');
+fs.readdirSync(modelsPath).forEach(function (file) {
+  require(modelsPath + '/' + file);
+});
 
 var app = express();
 

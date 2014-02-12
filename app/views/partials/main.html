@@ -1,12 +1,45 @@
 <div ng-include="'partials/navbar'"></div>
 
-<div class="row marketing">
-  <div ng-repeat="item in projects">
-      <h4>{{item.title}}</h4>
-      <div ng-repeat="field in item.fields" >
-        <span>{{field.label}}: </span> <p class="{{field.label}}">{{field.values[0].value}}</p>
-      </div>
-  </div>
+<div class="row">
+  <table class="table table-bordered table-striped table-hover col-md-12">
+    <thead>
+      <th ng-click="orderByField='project.title'; reverseSortProjs = !reverseSortProjs">Title</th>
+      <th ng-click="orderByField='fields.priority.text'; reverseSortProjs = !reverseSortProjs">Priority</th>
+      <th ng-click="orderByField='fields.progress'; reverseSortProjs = !reverseSortProjs">Progress</th>
+      <th ng-click="orderByField='fields.stage.text'; reverseSortProjs = !reverseSortProjs">Stage</th>
+      <th ng-click="orderByField='created_on'; reverseSortProjs = !reverseSortProjs">Submitted Date</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in projects | orderBy:orderByField:reverseSortProjs">
+        <td>{{item.project.title}}{{item.stage.text}}</td>
+        <td>{{item.fields.priority.text}}</td>
+        <td>{{item.fields.progress}}</td>
+        <td>{{item.fields.stage.text}}</td>
+        <td>{{item.created_on}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="row">
+  <table class="table table-bordered table-striped table-hover col-md-12">
+    <thead>
+      <th ng-click="orderByField='project.title'; reverseSortArchivedProjs = !reverseSortArchivedProjs">Title</th>
+      <th ng-click="orderByField='fields.priority.text'; reverseSortArchivedProjs = !reverseSortArchivedProjs">Priority</th>
+      <th ng-click="orderByField='fields.progress'; reverseSortArchivedProjs = !reverseSortArchivedProjs">Progress</th>
+      <th ng-click="orderByField='fields.stage.text'; reverseSortArchivedProjs = !reverseSortArchivedProjs">Stage</th>
+      <th ng-click="orderByField='created_on'; reverseSortArchivedProjs = !reverseSortArchivedProjs">Submitted Date</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in archivedProjects | orderBy:orderByField:reverseSortArchivedProjs">
+        <td>{{item.project.title}}{{item.stage.text}}</td>
+        <td>{{item.fields.priority.text}}</td>
+        <td>{{item.fields.progress}}</td>
+        <td>{{item.fields.stage.text}}</td>
+        <td>{{item.created_on}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <div class="footer">
