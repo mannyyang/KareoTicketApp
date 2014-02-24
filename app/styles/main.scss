@@ -2,27 +2,56 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 @import 'sass-bootstrap/lib/bootstrap';
 
-.browsehappy {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
-}
+// Variables
+$row-bottom-spacing: 30px;
 
-/* Space out content a bit */
+/*********************************/
+/* Common DOM Elements */
+/*********************************/
+/*Body*/
 body {
-    padding-top: 20px;
-    padding-bottom: 20px;
+
 }
 
-.header {
-    margin-bottom: 30px;
-}
-
-div.filters {
-	margin-bottom: 30px;
-}
-
+/*Table*/
 table .label {
 	font-size: 100%;
 }
+
+/* Space out content a bit */
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+.header {
+    margin-bottom: $row-bottom-spacing;
+}
+
+
+/* Filter Section */
+#Filters {
+	margin-bottom: $row-bottom-spacing;
+
+	.well {
+		padding: 15px;
+		margin: 0;
+
+		.priorities, .stages {
+
+			.glyphicon-ok {
+				margin-left: 10px;
+			}
+		}
+	}
+	.well > div:first-child{
+		border-right: 1px solid lightgrey;
+	}
+	form, .btn-toolbar {
+		margin-bottom: 15px;
+	}
+}
+
+

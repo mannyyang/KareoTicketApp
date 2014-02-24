@@ -7,13 +7,28 @@ angular.module('kareoticketApp')
     $scope.reverseSortProjs = false;
     $scope.reverseSortArchivedProjs = false;
 
-    $scope.stages={
-      'Complete': 'label label-success',
-      'Submitted': 'label label-danger',
-      'In Progress': 'label label-primary',
-      'Planning': 'label label-info',
-      'Archived': 'label label-default'
-    };
+    $scope.selectedStage = [];
+    $scope.stagesList = [{
+      id: 1,
+      name: 'Planning',
+      cssClass: 'label label-info'
+    },
+    {
+      id: 2,
+      name: 'In Progress',
+      cssClass: 'label label-primary'
+    },
+    {
+      id: 3,
+      name: 'Complete',
+      cssClass: 'label label-success'
+    }
+    // {
+    //   id: 4,
+    //   name: 'Submitted',
+    //   cssClass: 'label label-danger'
+    // }
+    ];
 
     $scope.selectedPriority = [];
     $scope.prioritiesList = [{
@@ -45,14 +60,33 @@ angular.module('kareoticketApp')
           return false;
         };
 
-        $scope.isChecked = function (id) {
+        $scope.setSelectedStage = function () {
+          var id = this.stage.id;
+          if (_.contains($scope.selectedStage, id)) {
+            $scope.selectedStage = _.without($scope.selectedStage, id);
+          } else {
+            $scope.selectedStage.push(id);
+            console.log($scope.selectedStage);
+          }
+          return false;
+        };
+
+        $scope.isPriorityChecked = function (id) {
         if (_.contains($scope.selectedPriority, id)) {
           return 'glyphicon glyphicon-ok pull-right';
         }
           return false;
         };
 
+        $scope.isStageChecked = function (id) {
+        if (_.contains($scope.selectedStage, id)) {
+          return 'glyphicon glyphicon-ok pull-right';
+        }
+          return false;
+        };
+
         $scope.checkAll = function () {
+          $scope.selectedStage = _.pluck($scope.stagesList, 'id');
           $scope.selectedPriority = _.pluck($scope.prioritiesList, 'id');
         };
 
@@ -88,21 +122,4 @@ angular.module('kareoticketApp')
       console.log('socket yes');
 		});
 
-	})
-  .filter('priorityFilter', [function () {
-    return function (projects, selectedPriority) {
-      if (!angular.isUndefined(projects) && !angular.isUndefined(selectedPriority) && selectedPriority.length > 0) {
-        var tempProjects = [];
-        angular.forEach(selectedPriority, function (id) {
-          angular.forEach(projects, function (project) {
-            if (angular.equals(project.fields.priority.id, id)) {
-              tempProjects.push(project);
-            }
-          });
-        });
-        return tempProjects;
-      } else {
-        return projects;
-      }
-    };
-  }]);
+	});
