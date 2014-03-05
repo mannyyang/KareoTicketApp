@@ -3,8 +3,8 @@
 angular.module('kareoticketApp')
   .controller('NavbarCtrl', function ($scope, $location) {
     $scope.menu = [{
-      'title': 'Home',
-      'link': '/'
+      // 'title': 'Home',
+      // 'link': '/'
     }];
     
     $scope.isActive = function(route) {

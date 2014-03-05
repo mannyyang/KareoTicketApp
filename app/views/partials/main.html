@@ -1,104 +1,117 @@
 <div ng-include="'partials/navbar'"></div>
 
 <!-- Filter Selections -->
-<h3>Filters</h3>
-
 <div id="Filters" class="row">
   <div class="col-md-12">
     <div class="well col-md-12">
-
-      <div class="col-md-3">
-        <h5>General</h5>
+      <!-- Start general filters -->
+      <div class="general col-md-3">
+        <h5>Click to select/remove all filters</h5>
         <div class="btn-toolbar" role="toolbar">
           <div class="btn-group">
-            <button type="button" class="btn btn-default" data-ng-click="checkAll()"><span class="glyphicon glyphicon-ok"></span>  Check All</button>
-            <button type="button" class="btn btn-default" data-ng-click="selectedPriority=[]; selectedStage=[];"><span class="glyphicon glyphicon-remove"></span>  Uncheck All</button>
+            <button type="button" class="btn btn-default" data-ng-click="checkAll()"><span class="glyphicon glyphicon-ok"></span>Select All</button>
+            <button type="button" class="btn btn-default" data-ng-click="selectedPriority=[]; selectedStage=[];"><span class="glyphicon glyphicon-remove"></span>Unselect All</button>
           </div>
         </div>
-        <h5>Other</h5>
-        <form role="form">
-          <div class="checkbox">
-            <label for="checkbox">
-              <input type="checkbox">Include Archived Projects
-            </label>
-          </div>
-        </form>
       </div>
-
-      <div class="priorities col-md-3">
-        <h5>Priorities</h5>
-        <div class="btn-toolbar" role="toolbar">
-          <div class="btn-group">  
-            <button type="button" class="btn btn-default" data-ng-repeat="priority in prioritiesList" data-ng-click="setSelectedPriority()">{{priority.name}}<span data-ng-class="isPriorityChecked(priority.id)"></span>
-            </button>
-          </div>
-        </div>
-        
-      </div>
-
+      <!-- End general filters -->
+      <!-- Start stage filters -->
       <div class="stages col-md-6">
-        <h5>Stage</h5>
+        <h5>Stage filter</h5>
         <div class="btn-toolbar" role="toolbar">
           <div class="btn-group">  
-            <button type="button" class="btn btn-default" data-ng-repeat="stage in stagesList" data-ng-click="setSelectedStage()">{{stage.name}}<span data-ng-class="isStageChecked(stage.id)"></span>
+            <button type="button" class="btn btn-primary" data-ng-repeat="stage in stagesList" data-ng-click="setSelectedStage()">{{stage.name}}<span data-ng-class="isStageChecked(stage.id)"></span>
             </button>
           </div>
         </div>
       </div>
-    
+      <!-- End stage filters -->
+      <!-- Start priority filters -->
+      <div class="priorities col-md-3">
+        <h5>Priority filter</h5>
+        <div class="btn-toolbar" role="toolbar">
+          <div class="btn-group">  
+            <button type="button" class="btn btn-primary" data-ng-repeat="priority in prioritiesList" data-ng-click="setSelectedPriority()">{{priority.name}}<span data-ng-class="isPriorityChecked(priority.id)"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- End priority filters -->
     </div>
   </div>
 </div>
 <!-- End Filter Selections -->
 
+<!-- Project List -->
+<div id="Projects" class="row">
+  <div class="panel panel-default">
+    <div class="panel-heading clearfix">
+      <!-- Start archived projects -->
+      <div class="col-md-6">
+        <form role="form">
+          <div class="checkbox">
+            <label for="checkbox">
+              <input type="checkbox" ng-click="isArchivedShown ? removeArchived() : addArchived()"><b>Include archived projects</b>
+            </label>
+          </div>
+        </form>
+      </div>
+      <!-- End archived projects -->
+      <!-- Start sort -->
+      <div class="sort col-md-6">
+        <div class="btn-group pull-right">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Sort By: <span class="text-info">{{selectedSort}}</span><span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="field in sortFields">
+              <a ng-click="orderByField(field)">{{field.textName}}<span data-ng-class="isSortSelected(field.textName) ? 'glyphicon glyphicon-ok' : '' " class="pull-right"></span>
+            </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- End Sort -->
+    </div>
 
-<!-- Project Table -->
-<div class="row">
-  <div class="col-md-12">
-    <table class="table table-bordered table-striped table-hover">
-      <thead>
-        <tr>
-          <th class="col-md-4" data-ng-class="isReversed(reverseSortProjs)" ng-click="orderByField='project.title'; reverseSortProjs = !reverseSortProjs">Title</th>
-          <th class="col-md-2" data-ng-class="isReversed(reverseSortProjs)" ng-click="orderByField='fields.priority.text'; reverseSortProjs = !reverseSortProjs">Priority</th>
-          <th class="col-md-2" data-ng-class="" ng-click="orderByField='fields.progress'; reverseSortProjs = !reverseSortProjs">Progress</th>
-          <th class="col-md-2" data-ng-class="" ng-click="orderByField='fields.stage.text'; reverseSortProjs = !reverseSortProjs">Stage</th>
-          <th class="col-md-2" data-ng-class="" ng-click="orderByField='created_on'; reverseSortProjs = !reverseSortProjs">Submitted Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="project in filtered = (projects | priorityFilter:selectedPriority | stageFilter:selectedStage | orderBy:orderByField:reverseSortProjs)">
-          <td class="col-md-6">{{project.project.title}}</td>
-          <td>{{project.fields.priority.text}}</td>
-          <td>{{project.fields.progress}}</td>
-          <td><span ng-class="stagesList[project.stage_id - 1].cssClass">{{project.fields.stage.text}}</span></td>
-          <td>{{project.created_on}}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="panel-body">
+    </div>
+
+    <ul class="list-group">
+      <li class="list-group-item clearfix" ng-repeat="project in filtered = (results | priorityFilter:selectedPriority | stageFilter:selectedStage | orderBy:orderField:reverseSort)">
+        <div class="lcol col col-md-10">
+          <div class="col col-md-9">
+            <h4 class="title">{{project.project.title}}</h4>
+            <div class="time"><span class="glyphicon glyphicon-time"></span>{{project.created_on | date:'medium'}}</div>
+          </div>
+          <div class="col col-md-3">
+            <div class="col col-md-12 text-right">
+              Assigned To:
+            </div>
+            <div class="col col-md-12">
+              <div class="pull-right" ng-repeat="person in project.responsible_persons">
+                <div class="person circular" style="background-image: url({{person.value.image.thumbnail_link}});">
+                  
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <div class="rcol col col-md-1">
+          <div class="col col-md-12">
+            <span class="priority badge" ng-class="setCss(project.priority_id, prioritiesList)">{{project.priority_name}}</span>
+          </div>
+          <div class="col col-md-12">
+            <span class="stage label" ng-class="setCss(project.stage_id, stagesList)">{{project.stage_name}}</span>
+          </div>
+        </div>
+          
+        <!-- <div>{{project.fields.progress}}</div> -->
+        
+      </li>
+    </ul>
   </div>
-</div>
-
-<div class="row">
-  <table class="table table-bordered table-striped table-hover col-md-12">
-    <thead>
-      <tr>
-        <th class="col-md-6" ng-click="orderByField='project.title'; reverseSortArchivedProjs = !reverseSortArchivedProjs">Title</th>
-        <th ng-click="orderByField='fields.priority.text'; reverseSortArchivedProjs = !reverseSortArchivedProjs">Priority</th>
-        <th ng-click="orderByField='fields.progress'; reverseSortArchivedProjs = !reverseSortArchivedProjs">Progress</th>
-        <th ng-click="orderByField='fields.stage.text'; reverseSortArchivedProjs = !reverseSortArchivedProjs">Stage</th>
-        <th ng-click="orderByField='created_on'; reverseSortArchivedProjs = !reverseSortArchivedProjs">Submitted Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="item in archivedProjects | orderBy:orderByField:reverseSortArchivedProjs">
-        <td class="col-md-6">{{item.project.title}}</td>
-        <td>{{item.fields.priority.text}}</td>
-        <td>{{item.fields.progress}}</td>
-        <td><span ng-class="stages[item.stage]">{{item.fields.stage.text}}</span></td>
-        <td>{{item.created_on}}</td>
-      </tr>
-    </tbody>
-  </table>
 </div>
 
 <div class="footer">

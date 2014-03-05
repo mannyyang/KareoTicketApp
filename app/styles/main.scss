@@ -1,24 +1,47 @@
 $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 
 @import 'sass-bootstrap/lib/bootstrap';
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400);
 
 // Variables
 $row-bottom-spacing: 30px;
+$icon-spacing: 10px;
+$label-font-size: 14px;
+
+// Mixins
+@mixin side-padding($size) {
+	padding-left: $size;
+	padding-right: $size;
+}
 
 /*********************************/
 /* Common DOM Elements */
 /*********************************/
-/*Body*/
-body {
-
+body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+	font-family: 'Lato', sans-serif;
+	font-weight: 400;
 }
-
-/*Table*/
-table .label {
-	font-size: 100%;
+h4 {
+	margin-top: 0;
 }
-
-/* Space out content a bit */
+.header {
+    margin-bottom: $row-bottom-spacing;
+}
+.center {
+	margin: 0 auto;
+	float: none;
+}
+.circular {
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	-webkit-border-radius: 25px;
+	-moz-border-radius: 25px;
+	background-size: auto 50px;
+	background-position: center;
+	background-image: url('https://media1-uk.shopto.net/ti/person.png');
+	/*background-color: lightgrey;*/
+}
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -26,12 +49,9 @@ table .label {
   padding: 0.2em 0;
 }
 
-.header {
-    margin-bottom: $row-bottom-spacing;
-}
-
-
+/*********************************/
 /* Filter Section */
+/*********************************/
 #Filters {
 	margin-bottom: $row-bottom-spacing;
 
@@ -39,19 +59,89 @@ table .label {
 		padding: 15px;
 		margin: 0;
 
-		.priorities, .stages {
+		.btn-group {
+			display: inline-block;
+			float: none;
+		}
 
-			.glyphicon-ok {
-				margin-left: 10px;
+		.general {
+			border-radius: 4px;
+
+			.glyphicon {
+				margin-right: $icon-spacing;
 			}
 		}
+
+		.priorities, .stages {
+			.glyphicon {
+				margin-left: $icon-spacing;
+			}
+		}
+
 	}
-	.well > div:first-child{
-		border-right: 1px solid lightgrey;
+	.well > div {
+		text-align: center;
 	}
-	form, .btn-toolbar {
+	.btn-toolbar {
 		margin-bottom: 15px;
 	}
 }
 
+/* Sort Section */
+.sort {
+	margin-top: 3px;
 
+	.dropdown-toggle .glyphicon {
+		margin-left: $icon-spacing;
+	}
+
+	.dropdown-toggle .caret {
+		margin-left: $icon-spacing;
+	}
+}
+
+/*********************************/
+/* Project List Section */
+/*********************************/
+#Projects {
+	@include side-padding(15px);
+	
+	.list-group {
+		
+		.time .glyphicon {
+			margin-right: $icon-spacing;
+		}
+		
+		.list-group-item {
+			
+			.col {
+				@include side-padding(0px);
+			}
+
+			.lcol {
+				
+			}
+
+			.rcol {
+				padding: 10px 0;
+				margin-left: 5%;
+				padding-left: 2%;
+				border-left: 1px solid lightgrey;
+			}
+
+			.priority {
+				margin-bottom: $icon-spacing;
+			}
+
+			.stage, .priority {
+	 			font-size: $label-font-size;
+			}
+
+			.person {
+				margin-left: 15px;
+			}
+		}
+
+	}
+	
+}
