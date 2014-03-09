@@ -9,8 +9,8 @@
         <h5>Click to select/remove all filters</h5>
         <div class="btn-toolbar" role="toolbar">
           <div class="btn-group">
-            <button type="button" class="btn btn-default" data-ng-click="checkAll()"><span class="glyphicon glyphicon-ok"></span>Select All</button>
-            <button type="button" class="btn btn-default" data-ng-click="selectedPriority=[]; selectedStage=[];"><span class="glyphicon glyphicon-remove"></span>Unselect All</button>
+            <button type="button" class="btn btn-primary" data-ng-click="checkAll()"><span class="glyphicon glyphicon-ok"></span>Select All</button>
+            <button type="button" class="btn btn-primary" data-ng-click="selectedPriority=[]; selectedStage=[];"><span class="glyphicon glyphicon-remove"></span>Unselect All</button>
           </div>
         </div>
       </div>
@@ -20,7 +20,7 @@
         <h5>Stage filter</h5>
         <div class="btn-toolbar" role="toolbar">
           <div class="btn-group">  
-            <button type="button" class="btn btn-primary" data-ng-repeat="stage in stagesList" data-ng-click="setSelectedStage()">{{stage.name}}<span data-ng-class="isStageChecked(stage.id)"></span>
+            <button type="button" class="btn btn-default" data-ng-repeat="stage in stagesList" data-ng-click="setSelectedStage()">{{stage.name}}<span data-ng-class="isStageChecked(stage.id)"></span>
             </button>
           </div>
         </div>
@@ -31,7 +31,7 @@
         <h5>Priority filter</h5>
         <div class="btn-toolbar" role="toolbar">
           <div class="btn-group">  
-            <button type="button" class="btn btn-primary" data-ng-repeat="priority in prioritiesList" data-ng-click="setSelectedPriority()">{{priority.name}}<span data-ng-class="isPriorityChecked(priority.id)"></span>
+            <button type="button" class="btn btn-default" data-ng-repeat="priority in prioritiesList" data-ng-click="setSelectedPriority()">{{priority.name}}<span data-ng-class="isPriorityChecked(priority.id)"></span>
             </button>
           </div>
         </div>
@@ -77,25 +77,37 @@
     <div class="panel-body">
     </div>
 
+    <!-- Start List Group -->
     <ul class="list-group">
       <li class="list-group-item clearfix" ng-repeat="project in filtered = (results | priorityFilter:selectedPriority | stageFilter:selectedStage | orderBy:orderField:reverseSort)">
         <div class="lcol col col-md-10">
           <div class="col col-md-9">
             <h4 class="title">{{project.project.title}}</h4>
-            <div class="time"><span class="glyphicon glyphicon-time"></span>{{project.created_on | date:'medium'}}</div>
+            <div class="col col-md-3">
+              <div class="col col-md-12">
+                <span class="sub-label">Created On:</span>
+              </div>
+              <span class="glyphicon glyphicon-saved"></span>{{project.created_on | date:'mediumDate'}}
+            </div>
+            <div class="col col-md-9">
+              <div class="col col-md-12">
+                <span class="sub-label">Requested By:</span>
+              </div>
+              <span ng-repeat="stakeholder in project.stakeholders">
+                {{ $last ? stakeholder.value.name : stakeholder.value.name + ', ' }}
+              </span>
+            </div>
           </div>
           <div class="col col-md-3">
-            <div class="col col-md-12 text-right">
+            <div class="sub-label col col-md-12 text-right">
               Assigned To:
             </div>
             <div class="col col-md-12">
               <div class="pull-right" ng-repeat="person in project.responsible_persons">
-                <div class="person circular" style="background-image: url({{person.value.image.thumbnail_link}});">
-                  
+                <div class="person circular" ng-style="'{{person.value.image.thumbnail_link}}' === '' ? { 'background-image' : 'url( http://d24pg1nxua23qm.cloudfront.net/application/assets/images/profile-no-photo.png )' } : { 'background-image' : 'url( {{person.value.image.thumbnail_link}} )' }">
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
         <div class="rcol col col-md-1">
@@ -111,6 +123,7 @@
         
       </li>
     </ul>
+    <!-- End List Group -->
   </div>
 </div>
 

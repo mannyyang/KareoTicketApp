@@ -1,8 +1,11 @@
 <div class="header" ng-controller="NavbarCtrl">
   <ul class="nav nav-pills pull-right">
-    <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
+  	<li>
+  		<a ng-click="openDialog()"><span class="glyphicon glyphicon-plus"></span>Add Project</a>
+  	</li>
+<!--     <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
         <a ng-href="{{item.link}}">{{item.title}}</a>
-    </li>
+    </li> -->
   </ul>
-  <h1>kareoticket</h1>
+  <h1>Kareo's Web Requests</h1>
 </div>
