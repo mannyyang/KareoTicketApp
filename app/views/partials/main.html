@@ -1,132 +1,140 @@
 <div ng-include="'partials/navbar'"></div>
 
-<!-- Filter Selections -->
-<div id="Filters" class="row">
-  <div class="col-md-12">
-    <div class="well col-md-12">
-      <!-- Start general filters -->
-      <div class="general col-md-3">
-        <h5>Click to select/remove all filters</h5>
-        <div class="btn-toolbar" role="toolbar">
-          <div class="btn-group">
-            <button type="button" class="btn btn-primary" data-ng-click="checkAll()"><span class="glyphicon glyphicon-ok"></span>Select All</button>
-            <button type="button" class="btn btn-primary" data-ng-click="selectedPriority=[]; selectedStage=[];"><span class="glyphicon glyphicon-remove"></span>Unselect All</button>
-          </div>
-        </div>
-      </div>
-      <!-- End general filters -->
-      <!-- Start stage filters -->
-      <div class="stages col-md-6">
-        <h5>Stage filter</h5>
-        <div class="btn-toolbar" role="toolbar">
-          <div class="btn-group">  
-            <button type="button" class="btn btn-default" data-ng-repeat="stage in stagesList" data-ng-click="setSelectedStage()">{{stage.name}}<span data-ng-class="isStageChecked(stage.id)"></span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <!-- End stage filters -->
-      <!-- Start priority filters -->
-      <div class="priorities col-md-3">
-        <h5>Priority filter</h5>
-        <div class="btn-toolbar" role="toolbar">
-          <div class="btn-group">  
-            <button type="button" class="btn btn-default" data-ng-repeat="priority in prioritiesList" data-ng-click="setSelectedPriority()">{{priority.name}}<span data-ng-class="isPriorityChecked(priority.id)"></span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <!-- End priority filters -->
-    </div>
-  </div>
-</div>
-<!-- End Filter Selections -->
-
-<!-- Project List -->
-<div id="Projects" class="row">
-  <div class="panel panel-default">
-    <div class="panel-heading clearfix">
-      <!-- Start archived projects -->
-      <div class="col-md-6">
-        <form role="form">
-          <div class="checkbox">
-            <label for="checkbox">
-              <input type="checkbox" ng-click="isArchivedShown ? removeArchived() : addArchived()"><b>Include archived projects</b>
-            </label>
-          </div>
-        </form>
-      </div>
-      <!-- End archived projects -->
-      <!-- Start sort -->
-      <div class="sort col-md-6">
-        <div class="btn-group pull-right">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            Sort By: <span class="text-info">{{selectedSort}}</span><span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="field in sortFields">
-              <a ng-click="orderByField(field)">{{field.textName}}<span data-ng-class="isSortSelected(field.textName) ? 'glyphicon glyphicon-ok' : '' " class="pull-right"></span>
-            </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <!-- End Sort -->
-    </div>
-
-    <div class="panel-body">
-    </div>
-
-    <!-- Start List Group -->
-    <ul class="list-group">
-      <li class="list-group-item clearfix" ng-repeat="project in filtered = (results | priorityFilter:selectedPriority | stageFilter:selectedStage | orderBy:orderField:reverseSort)">
-        <div class="lcol col col-md-10">
-          <div class="col col-md-9">
-            <h4 class="title">{{project.project.title}}</h4>
-            <div class="col col-md-3">
-              <div class="col col-md-12">
-                <span class="sub-label">Created On:</span>
+<carousel>
+  <slide>
+    <!-- Filter Selections -->
+    <div id="Filters" class="row">
+      <div class="col-md-12">
+        <div class="well col-md-12">
+          <!-- Start general filters -->
+          <div class="general col-md-3">
+            <h5>Click to select/remove all filters</h5>
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary" data-ng-click="checkAll()"><span class="glyphicon glyphicon-ok"></span>Select All</button>
+                <button type="button" class="btn btn-primary" data-ng-click="selectedPriority=[]; selectedStage=[];"><span class="glyphicon glyphicon-remove"></span>Unselect All</button>
               </div>
-              <span class="glyphicon glyphicon-saved"></span>{{project.created_on | date:'mediumDate'}}
-            </div>
-            <div class="col col-md-9">
-              <div class="col col-md-12">
-                <span class="sub-label">Requested By:</span>
-              </div>
-              <span ng-repeat="stakeholder in project.stakeholders">
-                {{ $last ? stakeholder.value.name : stakeholder.value.name + ', ' }}
-              </span>
             </div>
           </div>
-          <div class="col col-md-3">
-            <div class="sub-label col col-md-12 text-right">
-              Assigned To:
+          <!-- End general filters -->
+          <!-- Start stage filters -->
+          <div class="stages col-md-6">
+            <h5>Stage filter</h5>
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">  
+                <button type="button" class="btn btn-default" data-ng-repeat="stage in stagesList" data-ng-click="setSelectedStage()">{{stage.name}}<span data-ng-class="isStageChecked(stage.id)"></span>
+                </button>
+              </div>
             </div>
-            <div class="col col-md-12">
-              <div class="pull-right" ng-repeat="person in project.responsible_persons">
-                <div class="person circular" ng-style="'{{person.value.image.thumbnail_link}}' === '' ? { 'background-image' : 'url( http://d24pg1nxua23qm.cloudfront.net/application/assets/images/profile-no-photo.png )' } : { 'background-image' : 'url( {{person.value.image.thumbnail_link}} )' }">
+          </div>
+          <!-- End stage filters -->
+          <!-- Start priority filters -->
+          <div class="priorities col-md-3">
+            <h5>Priority filter</h5>
+            <div class="btn-toolbar" role="toolbar">
+              <div class="btn-group">  
+                <button type="button" class="btn btn-default" data-ng-repeat="priority in prioritiesList" data-ng-click="setSelectedPriority()">{{priority.name}}<span data-ng-class="isPriorityChecked(priority.id)"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- End priority filters -->
+        </div>
+      </div>
+    </div>
+    <!-- End Filter Selections -->
+
+    <!-- Project List -->
+    <div id="Projects" class="row">
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <!-- Start archived projects -->
+          <div class="col-md-6">
+            <form role="form">
+              <div class="checkbox">
+                <label for="checkbox">
+                  <input type="checkbox" ng-click="isArchivedShown ? removeArchived() : addArchived()"><b>Include archived projects</b>
+                </label>
+              </div>
+            </form>
+          </div>
+          <!-- End archived projects -->
+          <!-- Start sort -->
+          <div class="sort col-md-6">
+            <div class="btn-group pull-right">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Sort By: <span class="text-info">{{selectedSort}}</span><span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="field in sortFields">
+                  <a ng-click="orderByField(field)">{{field.textName}}<span data-ng-class="isSortSelected(field.textName) ? 'glyphicon glyphicon-ok' : '' " class="pull-right"></span>
+                </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- End Sort -->
+        </div>
+
+        <div class="panel-body">
+        </div>
+
+        <!-- Start List Group -->
+        <ul class="list-group">
+          <li class="list-group-item clearfix" ng-repeat="project in filtered = (results | priorityFilter:selectedPriority | stageFilter:selectedStage | orderBy:orderField:reverseSort)">
+            <div class="lcol col col-md-10">
+              <div class="col col-md-9">
+                <h4 class="title">{{project.project.title}}</h4>
+                <div class="col col-md-3">
+                  <div class="col col-md-12">
+                    <span class="sub-label">Created On:</span>
+                  </div>
+                  <span class="glyphicon glyphicon-saved"></span>{{project.created_on | date:'mediumDate'}}
+                </div>
+                <div class="col col-md-9">
+                  <div class="col col-md-12">
+                    <span class="sub-label">Requested By:</span>
+                  </div>
+                  <span ng-repeat="stakeholder in project.stakeholders">
+                    {{ $last ? stakeholder.value.name : stakeholder.value.name + ', ' }}
+                  </span>
+                </div>
+              </div>
+              <div class="col col-md-3">
+                <div class="sub-label col col-md-12 text-right">
+                  Assigned To:
+                </div>
+                <div class="col col-md-12">
+                  <div class="pull-right" ng-repeat="person in project.responsible_persons">
+                    <div class="person circular" ng-style="'{{person.value.image.thumbnail_link}}' === '' ? { 'background-image' : 'url( http://d24pg1nxua23qm.cloudfront.net/application/assets/images/profile-no-photo.png )' } : { 'background-image' : 'url( {{person.value.image.thumbnail_link}} )' }">
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="rcol col col-md-1">
-          <div class="col col-md-12">
-            <span class="priority badge" ng-class="setCss(project.priority_id, prioritiesList)">{{project.priority_name}}</span>
-          </div>
-          <div class="col col-md-12">
-            <span class="stage label" ng-class="setCss(project.stage_id, stagesList)">{{project.stage_name}}</span>
-          </div>
-        </div>
-          
-        <!-- <div>{{project.fields.progress}}</div> -->
-        
-      </li>
-    </ul>
-    <!-- End List Group -->
-  </div>
-</div>
+            <div class="rcol col col-md-1">
+              <div class="col col-md-12">
+                <span class="priority badge" ng-class="setCss(project.priority_id, prioritiesList)">{{project.priority_name}}</span>
+              </div>
+              <div class="col col-md-12">
+                <span class="stage label" ng-class="setCss(project.stage_id, stagesList)">{{project.stage_name}}</span>
+              </div>
+            </div>
+              
+            <!-- <div>{{project.fields.progress}}</div> -->
+            
+          </li>
+        </ul>
+        <!-- End List Group -->
+      </div>
+    </div>
+  </slide>
+<!--   <slide>
+    <div ng-include="'partials/podio-request-form'"></div>
+  </slide> -->
+</carousel>
 
 <div class="footer">
   <p>♥ from the Yeoman team</p>
 </div>
+

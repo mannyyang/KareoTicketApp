@@ -1,14 +1,8 @@
 'use strict';
 
 angular.module('kareoticketApp')
-  .controller('PodioFormCtrl', function ($scope, $modal, socket) {
+  .controller('PodioFormCtrl', function ($scope, socket) {
 
-   $scope.open = function () {
+	_podioWebForm.render("430233");
 
-    var modalInstance = $modal.open({
-      templateUrl: 'partials/podio-request-form.html',
-    });
-
-  };
-
-	});
+});

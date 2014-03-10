@@ -13,6 +13,10 @@ angular.module('kareoticketApp', [
         templateUrl: 'partials/main',
         controller: 'MainCtrl'
       })
+      .when('/addproject', {
+        templateUrl: 'partials/podio-request-form',
+        controller: 'PodioFormCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
