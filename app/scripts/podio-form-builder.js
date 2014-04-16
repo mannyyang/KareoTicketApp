@@ -153,7 +153,7 @@
     };
 
     this.generateFrameMarkup = function() {
-      return '<iframe class="podio-webform-frame" id="' + this.iframeId + '"' + ' height="' + this.height + '" style="width:100%;border:none;"' + 'allowTransparency="true" frameborder="0" scrolling="no"' + 'src="' + ((this.isDisabled) ? this.disabledUrl + '?domain=' + location.host : this.frameUrl) + '#' + encodeURIComponent(document.location.href) + '"></iframe>';
+      return '<iframe class="podio-webform-frame" id="' + this.iframeId + '"' + ' height="' + this.height + '" style="width:100%;border:none;"' + 'allowTransparency="true" frameborder="0" scrolling="yes"' + 'src="' + ((this.isDisabled) ? this.disabledUrl + '?domain=' + location.host : this.frameUrl) + '#' + encodeURIComponent(document.location.href) + '"></iframe>';
     };
 
     this.addSnippetStyling = function () {
